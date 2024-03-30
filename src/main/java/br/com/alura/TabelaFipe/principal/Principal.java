@@ -45,19 +45,5 @@ public class Principal {
                 .forEach(System.out::println);
         ;
 
-        // System.out.println("Digite o código de qual marca deseja consultar: ");
-        // opcao = leitura.nextLine();
-        // endereco = endereco + opcao + "/modelos/";
-
-        // json = consumo.obterDados(endereco);
-        // System.out.println(json + "\n");
-
-        // System.out.println("Digite o código do modelo desejado: ");
-        // opcao = leitura.nextLine();
-        // endereco = endereco + opcao + "/anos";
-
-        // json = consumo.obterDados(endereco);
-        // System.out.println(json + "\n");
-
     }
 }
