@@ -4,11 +4,12 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 import br.com.alura.TabelaFipe.model.Dados;
+import br.com.alura.TabelaFipe.model.Modelos;
 import br.com.alura.TabelaFipe.service.ConsumoApi;
 import br.com.alura.TabelaFipe.service.ConverteDados;
 
 public class Principal {
-    private Scanner leitura = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
     private ConsumoApi consumo = new ConsumoApi();
     private ConverteDados conversor = new ConverteDados();
 
@@ -24,7 +25,7 @@ public class Principal {
                 Digite uma das opções para consultar:
                 """;
         System.out.println(menu);
-        var opcao = leitura.nextLine();
+        var opcao = scanner.nextLine();
 
         String endereco;
 
@@ -37,13 +38,28 @@ public class Principal {
         }
 
         var json = consumo.obterDados(endereco);
-        System.out.println(json + "\n");
 
         var marcas = conversor.obterLista(json, Dados.class);
         marcas.stream()
+                // ordena do menor código ao maior
                 .sorted(Comparator.comparing(Dados::codigo))
                 .forEach(System.out::println);
-        ;
+
+        System.out.println("Digite o código da marca que deseja consultar: ");
+        var codigoMarca = scanner.nextLine();
+
+        endereco = endereco + codigoMarca + "/modelos/";
+        json = consumo.obterDados(endereco);
+
+        // O modelo já está representado como uma lista, por isso é utilizado
+        // .obterDados ao invés de .obterLista
+        var modeloLista = conversor.obterDados(json, Modelos.class);
+
+        System.out.println("\nModelos da marca selecionada: ");
+        modeloLista.modelos().stream()
+                // também pode ser utilizado Dados::nome para ordenar por ordem alfabética.
+                .sorted(Comparator.comparing(Dados::codigo))
+                .forEach(System.out::println);
 
     }
 }

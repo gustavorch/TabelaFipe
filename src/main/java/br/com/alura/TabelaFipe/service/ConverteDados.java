@@ -7,11 +7,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
 public class ConverteDados implements iConverteDados {
+    // ObjectMapper vem da dependência Jackson
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public <T> T obterDados(String json, Class<T> classe) {
         try {
+            //
             return mapper.readValue(json, classe);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -27,6 +29,6 @@ public class ConverteDados implements iConverteDados {
             // e.printStackTrace();
             throw new RuntimeException(e);
         }
-    };
+    }
 
 }
